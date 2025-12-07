@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const connectToDatabase = require("./database"); // Since database has index.js so it doesn't include it in the address
+const fs = require("fs");
 const Blog = require("./model/blogModel");
 const app = express();
 const { multer, storage } = require("./middleware/multerConfig.js");
@@ -28,6 +29,7 @@ app.post("/blog", upload.single("image"), async (req, res) => {
   // console.log(req.body);
   // const title = req.body.title;
   const { title, subtitle, description } = req.body;
+  console.log(req.file);
   const filename = req.file.filename;
   // const {filename} = req.file;
 
@@ -49,6 +51,13 @@ app.post("/blog", upload.single("image"), async (req, res) => {
 
 app.get("/blog", async (req, res) => {
   const blogs = await Blog.find(); // returns array
+
+  if (blogs.length == 0) {
+    return res.status(404).json({
+      message: "Data not found.",
+    });
+  }
+
   res.status(200).json({
     message: "Blogs fetched successfully.",
     data: blogs,
@@ -71,10 +80,59 @@ app.get("/blog/:id", async (req, res) => {
   });
 });
 
+app.delete("/blog/:id", async (req, res) => {
+  const id = req.params.id;
+  const blog = await Blog.findById(id);
+  console.log(blog.image);
+  const imageName = blog.image;
+
+  fs.unlink(`storage/${imageName}`, (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("File deleted successfully.");
+    }
+  });
+
+  await Blog.findByIdAndDelete(id);
+  res.status(200).json({
+    message: "Blog deleted successfully.",
+  });
+});
+
+app.patch("/blog/:id", upload.single("image"), async (req, res) => {
+  const id = req.params.id;
+  const { title, subtitle, description } = req.body;
+  let imageName;
+
+  if (req.file) {
+    imageName = req.file.filename;
+    const blog = await Blog.findById(id);
+    console.log(blog.image);
+    const oldImageName = blog.image;
+
+    fs.unlink(`storage/${oldImageName}`, (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("File deleted successfully.");
+      }
+    });
+  }
+
+  await Blog.findByIdAndUpdate(id, {
+    title: title,
+    subtitle: subtitle,
+    description: description,
+    image: imageName,
+  });
+  res.status(200).json({
+    message: "Blog updated successfully.",
+  });
+});
+
 app.use(express.static("./storage")); // Helps Frontend access the files
 
 app.listen(process.env.PORT, () => {
   console.log("Server has been started.");
 });
-
-// mongodb+srv://mausam:FhFZ0H4ongw85ZfL@cluster0.9ligjln.mongodb.net/?appName=Cluster0
