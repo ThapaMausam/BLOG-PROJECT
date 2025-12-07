@@ -55,7 +55,23 @@ app.get("/blog", async (req, res) => {
   });
 });
 
-app.use(express.static("./storage"));
+app.get("/blog/:id", async (req, res) => {
+  const id = req.params.id; // In MongoDB objectId are in 24 hex format
+  const blog = await Blog.findById(id); // returns a single object
+
+  if (!blog) {
+    return res.status(404).json({
+      message: "Data not found.",
+    });
+  }
+
+  res.status(200).json({
+    message: "Fetched Successfully.",
+    data: blog,
+  });
+});
+
+app.use(express.static("./storage")); // Helps Frontend access the files
 
 app.listen(process.env.PORT, () => {
   console.log("Server has been started.");
