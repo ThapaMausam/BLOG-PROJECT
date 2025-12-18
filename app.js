@@ -6,8 +6,16 @@ const Blog = require("./model/blogModel");
 const app = express();
 const { multer, storage } = require("./middleware/multerConfig.js");
 const upload = multer({ storage: storage });
+const cors = require("cors");
 
 app.use(express.json());
+
+// Better way of handling cors
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  })
+);
 
 connectToDatabase();
 
@@ -25,7 +33,7 @@ app.get("/about", (req, res) => {
 });
 
 app.post("/blog", upload.single("image"), async (req, res) => {
-  // image is the field name that it sent from frontend
+  // image is the field name that is sent from frontend
   // console.log(req.body);
   // const title = req.body.title;
   const { title, subtitle, description } = req.body;
@@ -50,13 +58,16 @@ app.post("/blog", upload.single("image"), async (req, res) => {
 });
 
 app.get("/blog", async (req, res) => {
-  const blogs = await Blog.find(); // returns array
+  const blogs = await Blog.find();
 
   if (blogs.length == 0) {
     return res.status(404).json({
       message: "Data not found.",
     });
   }
+
+  // Not recommended form of CORS handling
+  // res.header("Access-Control-Allow-Origin", "http://localhost:5173");
 
   res.status(200).json({
     message: "Blogs fetched successfully.",
@@ -131,6 +142,7 @@ app.patch("/blog/:id", upload.single("image"), async (req, res) => {
   });
 });
 
+// Very Very Imp
 app.use(express.static("./storage")); // Helps Frontend access the files
 
 app.listen(process.env.PORT, () => {
