@@ -20,7 +20,7 @@ export default function NavBar() {
             </Link>
           </div>
           
-          {/* Desktop Navigation Links */}
+          {/* Desktop Navigation Links
           <div className="hidden md:flex items-center space-x-8">
             <Link to="/" className="text-sm text-gray-900 font-medium hover:text-blue-600 transition-colors">
               Home
@@ -34,7 +34,7 @@ export default function NavBar() {
             <Link to="/about" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
               About
             </Link>
-          </div>
+          </div> */}
           
           {/* Right Side Actions */}
           <div className="flex items-center space-x-4">

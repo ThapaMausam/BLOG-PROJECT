@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Pencil, Trash2 } from 'lucide-react';
 
 export default function SinglePageBlog() {
@@ -28,6 +28,7 @@ export default function SinglePageBlog() {
     useEffect(() => {
         fetchSingleBlog();
     }, [])
+
     return (
     <>
       <NavBar />
@@ -69,12 +70,14 @@ export default function SinglePageBlog() {
 
         {/* Action Buttons */}
         <div className="mt-8 flex gap-4 justify-end">
+          <Link to={`/edit/${blog._id}`}>
           <button
             className="flex items-center gap-2 px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-200 shadow-md hover:shadow-lg cursor-pointer"
           >
             <Pencil size={20} />
             <span className="font-medium">Edit</span>
           </button>
+          </Link>
           <button
             className="flex items-center gap-2 px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-200 shadow-md hover:shadow-lg cursor-pointer" onClick={deleteBlog}
           >
