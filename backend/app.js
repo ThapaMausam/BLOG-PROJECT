@@ -13,7 +13,7 @@ app.use(express.json());
 // Better way of handling cors
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "*",
   })
 );
 
@@ -145,6 +145,6 @@ app.patch("/blog/:id", upload.single("image"), async (req, res) => {
 // Very Very Imp
 app.use(express.static("./storage")); // Helps Frontend access the files
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT, "0.0.0.0", () => {
   console.log("Server has been started.");
 });

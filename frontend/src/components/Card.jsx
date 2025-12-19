@@ -9,7 +9,7 @@ export default function Card(props) {
         <div className="relative h-56 overflow-hidden bg-gray-200">
           <img 
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-            src={`http://localhost:3000/${props.blog.image}`}
+            src={`http://192.168.1.70:3000/${props.blog.image}`}
             alt={props.blog.title}
             loading="lazy"
           />

@@ -8,10 +8,12 @@ function Home() {
     const [data, setData] = useState([]);
 
     const fetchBlogs = async () => {
-        const result = await axios.get("http://localhost:3000/blog")
+        const result = await axios.get("http://192.168.1.70:3000/blog");
         setData(result.data.data); // JSON is always stored in result.data
     }
 
+    console.log(data);
+    
     useEffect(() => {
         fetchBlogs()
     }, [])
@@ -28,8 +30,8 @@ function Home() {
 
                 {/* Grid Container */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    {data.map((blog, index) => (
-                    <Card key={blog.id || index} blog={blog} />
+                    {data.map((blog) => (
+                    <Card blog={blog} />
                     ))}
                 </div>
 
