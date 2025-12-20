@@ -18,7 +18,7 @@ app.use(express.json());
 // Better way of handling cors
 app.use(
   cors({
-    origin: "*",
+    origin: ["http://localhost:3000", "https://blog-project-g72m.onrender.com"],
   })
 );
 
