@@ -4,6 +4,21 @@ A modern blog application that enables users to create, edit, view, and delete b
 
 ---
 
+<details>
+  <summary>📸 Click to view project screenshots</summary>
+  <div align="center">
+    <br>
+    <img src="./assets/home-page.png" alt="Home Page" width="600">
+    <p><em>Homepage view</em></p>
+    <img src="./assets/simgle-page.png" alt="Single Post" width="600">
+    <p><em>Blog post detail view</em></p>
+    <img src="./assets/create-page.png" alt="Editor" width="600">
+    <p><em>Admin writing dashboard</em></p>
+  </div>
+</details>
+
+---
+
 ## 🚀 Features
 
 - ✍️ Create new blog posts
